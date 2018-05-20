@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA", "RSA\RSA.csproj", "{FBC06D4D-BAEF-4132-A485-3128F42ED202}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSAConsole", "RSAConsole\RSAConsole.csproj", "{386D9067-7959-48A9-A824-E529088C5DE4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBC06D4D-BAEF-4132-A485-3128F42ED202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBC06D4D-BAEF-4132-A485-3128F42ED202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBC06D4D-BAEF-4132-A485-3128F42ED202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBC06D4D-BAEF-4132-A485-3128F42ED202}.Release|Any CPU.Build.0 = Release|Any CPU
+		{386D9067-7959-48A9-A824-E529088C5DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{386D9067-7959-48A9-A824-E529088C5DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{386D9067-7959-48A9-A824-E529088C5DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{386D9067-7959-48A9-A824-E529088C5DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
