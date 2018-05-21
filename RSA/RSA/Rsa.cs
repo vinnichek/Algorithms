@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace RSA
 {
@@ -10,29 +10,42 @@ namespace RSA
             public int n;
         }
 
-        public static int ExtendedEuclid(int a, int b, out int x, out int y)
-        {
-            if (b < a)
-            {
-                var item = a;
-                a = b;
-                b = item;
-            }
+		public static int[] ExtendedEuclideanAlgorithm(int lhs, int rhs)
+		{
+			int[] result = new int[3];
+			if (lhs < rhs)
+			{
+				int temp = lhs;
+				lhs = rhs;
+				rhs = temp;
+			}
+			int r = rhs;
+			int q = 0;
+			int x0 = 1;
+			int y0 = 0;
+			int x1 = 0;
+			int y1 = 1;
+			int x = 0, y = 0;
+			while (r > 1)
+			{
+				r = lhs % rhs;
+				q = lhs / rhs;
+				x = x0 - q * x1;
+				y = y0 - q * y1;
+				x0 = x1;
+				y0 = y1;
+				x1 = x;
+				y1 = y;
+				lhs = rhs;
+				rhs = r;
+			}
+			result[0] = r;
+			result[1] = x;
+			result[2] = y;
+			return result;
+		}
 
-            if (a == 0)
-            {
-                x = 0;
-                y = 1;
-                return b;
-            }
-
-            int gcd = ExtendedEuclid(b % a, a, out int newX, out int newY);
-            x = newY - b / a * newX;
-            y = newX;
-            return gcd;
-        }
-
-        public static Key GenerateOpenKey(int n, int fi)
+		public static Key GenerateOpenKey(int n, int fi)
         {
             Key key;
             key.n = n;
@@ -92,32 +105,46 @@ namespace RSA
 
         public static int CalculateD(int fi, int e)
         {
-            int d = 0;
-            for (int i = 0; ; i++)
-            {
-                if ((e * i + 1) % fi == 0)
-                {
-                    d = (e * i + 1) / fi;
-                    break;
-                }
-            }
-            return d;
+			return ExtendedEuclideanAlgorithm(e, fi)[2];
         }
 
         public static int Encode(int message, int e, int n)
         {
-            return modPow(message, e, n);
+            return ModPow(message, e, n);
         }
 
         public static int Decode(int message, int d, int n)
         {
-            return modPow(message, d, n);
+            return ModPow(message, d, n);
         }
 
-        public static int modPow(int num, int degree, int mod)
+        public static int ModPow(int num, int degree, int mod)
         {
-            return (degree == 0) ? 1 : (((degree & 1) != 0) ? num : 1) * 
-                modPow((num * num) % mod, degree / 2, mod) % mod;
+            return (degree == 0) ? 1 : (((degree & 1) != 0) ? num : 1) *
+				ModPow((num * num) % mod, degree / 2, mod) % mod;
         }
+
+		public static int Euler(int num)
+		{
+			int result = num;
+			for (int i = 2; i * i <= num; ++i)
+				if (num % i == 0)
+				{
+					while (num % i == 0)
+						num /= i;
+					result -= result / i;
+				}
+			if (num > 1)
+				result -= result / num;
+			return result;
+		}
+
+		public static Key GenerateSecretKeyByOpen(Key openKey)
+		{
+			Key key;
+			key.n = openKey.n;
+			key.e = ExtendedEuclideanAlgorithm(openKey.e, Euler(openKey.n))[2];
+			return key;
+		}
     }
 }
