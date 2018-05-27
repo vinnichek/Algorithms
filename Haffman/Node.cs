@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Huffman
 {
@@ -9,33 +9,32 @@ namespace Huffman
         public Node Right { get; set; }
         public Node Left { get; set; }
 
-        public List<bool> Traverse(char symbol, List<bool> data)
+        public List<bool> Traverse(char symbol, List<bool> bites)
         {
-
             if (Right == null && Left == null)
             {
                 if (symbol.Equals(this.Symbol))
                 {
-                    return data;
+                    return bites;
                 }
                 return null;
             }
+
             List<bool> left = null;
             List<bool> right = null;
 
             if (Left != null)
             {
-                List<bool> leftPath = new List<bool>();
-                leftPath.AddRange(data);
+                var leftPath = new List<bool>();
+                leftPath.AddRange(bites);
                 leftPath.Add(false);
-
                 left = Left.Traverse(symbol, leftPath);
             }
 
             if (Right != null)
             {
                 List<bool> rightPath = new List<bool>();
-                rightPath.AddRange(data);
+                rightPath.AddRange(bites);
                 rightPath.Add(true);
                 right = Right.Traverse(symbol, rightPath);
             }
