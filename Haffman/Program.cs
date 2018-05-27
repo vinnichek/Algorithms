@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections;
 using System.IO;
@@ -24,6 +24,10 @@ namespace Huffman
 
             BitArray encoded = huffmanTree.Encode(input);
 
+            byte[] bytes = new byte[encoded.Length / 8 + (encoded.Length % 8 == 0 ? 0 : 1)];
+            encoded.CopyTo(bytes, 0);
+            File.WriteAllBytes(@"../../encoded.bin", bytes);
+
             /*
             Console.Write("Encoded: ");
             foreach (bool bit in encoded)
@@ -33,14 +37,6 @@ namespace Huffman
             Console.WriteLine();
             */
 
-            using (FileStream fstream = new FileStream(@"../../encoded.txt", FileMode.OpenOrCreate))
-            {
-                foreach (bool bit in encoded)
-                {
-                    byte[] array = Encoding.Default.GetBytes((bit ? 1 : 0) + "");
-                    fstream.Write(array, 0, array.Length);
-                }
-            }
             string decoded = huffmanTree.Decode(encoded);
 
             using (FileStream fstream = new FileStream(@"../../decoded.txt", FileMode.OpenOrCreate))
@@ -56,3 +52,4 @@ namespace Huffman
         }
     }
 }
+       
