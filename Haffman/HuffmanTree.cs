@@ -22,7 +22,7 @@ namespace Huffman
                 Frequencies[input[i]]++;
             }
 
-            foreach (KeyValuePair<char, int> symbol in Frequencies)
+            foreach (var symbol in Frequencies)
             {
                 nodes.Add(new Node { Symbol = symbol.Key, Frequency = symbol.Value });
             }
