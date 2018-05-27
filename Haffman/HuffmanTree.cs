@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Collections;
 
@@ -54,17 +54,15 @@ namespace Huffman
 
         public BitArray Encode(string input)
         {
-            List<bool> encodedInput = new List<bool>();
+            var encodedInput = new List<bool>();
 
             for (int i = 0; i < input.Length; i++)
             {
-                List<bool> encodedSymbol = Root.Traverse(input[i], new List<bool>());
+                var encodedSymbol = Root.Traverse(input[i], new List<bool>());
                 encodedInput.AddRange(encodedSymbol);
             }
 
-            BitArray bits = new BitArray(encodedInput.ToArray());
-
-            return bits;
+            return new BitArray(encodedInput.ToArray());
         }
 
         public string Decode(BitArray bits)
