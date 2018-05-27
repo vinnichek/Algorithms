@@ -1,26 +1,33 @@
-﻿using System;
+using System;
 using RSA;
 
 namespace RSAConsole
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            int p = 3, q = 7;
-            int n = p * q;
-            int fi = (p - 1) * (q - 1);
-            int e = Rsa.CalculateE(fi);
-            //int d = Rsa.CalculateD(p, q);
-            int d = 17;
-            var openKey = Rsa.GenerateOpenKey(n, fi);
-            var secretKey = Rsa.GenerateSecretKey(n, d);
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			int p = 5, q = 7;
+			int n = p * q;
+			int fi = (p - 1) * (q - 1);
+			int e = Rsa.CalculateE(fi);
 
-            var encodedMessage = Rsa.Encode(19, openKey.e, openKey.n);
-            Console.WriteLine(encodedMessage);
+			var openKey = Rsa.GenerateOpenKey(n, fi);
+			Console.WriteLine(openKey.e + " " + openKey.n);
 
-            var decodedMessage = Rsa.Decode(encodedMessage, secretKey.e, secretKey.n);
-            Console.WriteLine(decodedMessage);
-        }
-    }
+			int d = Rsa.CalculateD(e, fi);
+			var secretKey = Rsa.GenerateSecretKey(n, d);
+			Console.WriteLine(secretKey.e + " " + secretKey.n);
+
+			var encodedMessage = Rsa.Encode(5, openKey.e, openKey.n);
+			Console.WriteLine(encodedMessage);
+
+			var decodedMessage = Rsa.Decode(encodedMessage, secretKey.e, secretKey.n);
+			Console.WriteLine(decodedMessage);
+
+			var secretKey2 = Rsa.GenerateSecretKeyByOpen(openKey);
+			Console.WriteLine(secretKey2.e + " " + secretKey2.n);
+			Console.ReadKey();
+		}
+	}
 }
